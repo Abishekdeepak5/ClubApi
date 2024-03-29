@@ -27,7 +27,7 @@ stages:
     - script: |
         git config --global user.email "logsak25@gmail.com"
         git config --global user.name "Abishekdeepak5"
-        git clone https://github.com/Abishekdeepak5/ClubApi.git
+        git clone https://abishekaranganathan@dev.azure.com/abishekaranganathan/MyProject/_git/ClubApi
         cd ClubApi
         pwd
         # cp -r ../ClubApi/* .
