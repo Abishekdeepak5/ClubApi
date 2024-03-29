@@ -29,6 +29,7 @@ stages:
         git config --global user.name "Abishekdeepak5"
         git clone https://github.com/Abishekdeepak5/ClubApi.git
         cd ClubApi
+        pwd
         # cp -r ../ClubApi/* .
         cp -r ../$(Build.Repository.Name)/* .
         git add .
