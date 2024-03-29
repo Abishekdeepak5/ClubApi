@@ -29,8 +29,9 @@ stages:
         git config --global user.name "Abishekdeepak5"
         git clone https://github.com/Abishekdeepak5/ClubApi.git
         cd ClubApi
-        cp -r ../$(Build.Repository.Name)/* .
+        cp -r ../ClubApi/* .
         git add .
+        git status
         git commit -m "Automated commit from Azure Pipelines"
         git push origin main
       displayName: 'Push code to GitHub'
