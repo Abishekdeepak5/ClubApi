@@ -2,33 +2,65 @@
 # Build and test ASP.NET projects.
 # Add steps that publish symbols, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
-
 trigger:
 - main
 
-pool:
-  vmImage: 'windows-latest'
+stages:
+- stage: Checkout
+  jobs:
+  - job: CheckoutRepo
+    displayName: 'Checkout Azure Repo'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - checkout: self
 
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+- stage: PushToGitHub
+  displayName: 'Push to GitHub'
+  jobs:
+  - job: PushCode
+    displayName: 'Push Code to GitHub'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - checkout: none
+    - script: |
+        git config --global user.email "logsak25@gmail.com"
+        git config --global user.name "Abishekdeepak5"
+        git clone https://github.com/Abishekdeepak5/ClubApi.git
+        cd ClubApi
+        cp -r ../$(Build.Repository.Name)/* .
+        git add .
+        git commit -m "Automated commit from Azure Pipelines"
+        git push origin main
+      displayName: 'Push code to GitHub'
 
-steps:
-- task: NuGetToolInstaller@1
+# trigger:
+# - main
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+# pool:
+#   vmImage: 'windows-latest'
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+# variables:
+#   solution: '**/*.sln'
+#   buildPlatform: 'Any CPU'
+#   buildConfiguration: 'Release'
 
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+# steps:
+# - task: NuGetToolInstaller@1
+
+# - task: NuGetCommand@2
+#   inputs:
+#     restoreSolution: '$(solution)'
+
+# - task: VSBuild@1
+#   inputs:
+#     solution: '$(solution)'
+#     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+#     platform: '$(buildPlatform)'
+#     configuration: '$(buildConfiguration)'
+
+# - task: VSTest@2
+#   inputs:
+#     platform: '$(buildPlatform)'
+#     configuration: '$(buildConfiguration)'
