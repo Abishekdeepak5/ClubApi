@@ -33,7 +33,7 @@ stages:
         git add .
         git status
         git commit -m "Automated commit from Azure Pipelines"
-        git push origin main
+        git push https://Abisehkdeepak5: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@github.com/Abishekdeepak5/ClubApi.git main
       displayName: 'Push code to GitHub'
 
 # trigger:
